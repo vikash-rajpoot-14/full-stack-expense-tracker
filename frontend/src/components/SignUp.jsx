@@ -29,7 +29,7 @@ function SignUp() {
         throw new Error('Passwords do not match')
       }
       const response = await fetch(
-        "https://expense-tracker-10869-default-rtdb.firebaseio.com/user.json",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC8T2tJrMoX-NMazsfAm00AGKxU27_xLtU",
         {
           method: "POST",
           headers: {
@@ -40,7 +40,9 @@ function SignUp() {
       );
       const data = await response.json();
       console.log("data", data);
-      if(data.name){
+      if(data.error){
+        throw new Error(data.error.message)
+      }else{
         setNote("SignUp successful")
       }
       setFormData({
@@ -71,7 +73,7 @@ function SignUp() {
          value={formData.email}
           onChange={handleChange}
           id="email"
-          className="px-8 p-2 text-lg border-2"
+          className="w-72 px-8 p-2 text-lg border-2"
           type="text"
           placeholder="Email"
         />
@@ -79,7 +81,7 @@ function SignUp() {
          value={formData.password}
           onChange={handleChange}
           id="password"
-          className="px-8 p-2 text-lg border-2"
+          className="w-72 px-8 p-2 text-lg border-2"
           type="password"
           placeholder="Password"
         />
@@ -87,8 +89,8 @@ function SignUp() {
          value={formData.confirmpass}
           onChange={handleChange}
           id="confirmpass"
-          className="px-8 p-2 mb-4 text-lg border-2"
-          type="confirmpass"
+          className="w-72 px-8 p-2 mb-4 text-lg border-2"
+          type="password"
           placeholder="Confirm Password"
         />
         <button
