@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Link, useNavigate} from "react-router-dom";
+import { context } from '../App';
 
 function LogIn() {
     const [formData, setFormData] = useState({
@@ -10,8 +11,9 @@ function LogIn() {
       const [error, setError] = useState(null);
       const [note, setNote] = useState(null);
       const [loading, setLoading] = useState(false)
-      console.log(formData);
-    
+
+      const Ctx = useContext(context)
+
       const resetError=()=>{
         setTimeout(()=>{
           setError(null)
@@ -41,8 +43,9 @@ function LogIn() {
           if(data.error){
             throw new Error(data.error.message)
           }else{
-            localStorage.setItem('token',JSON.stringify(data.idToken))
-              setNote("Login successful")
+            Ctx.setToken(data.idToken);
+            Ctx.setUser(data);
+            setNote("Login successful")
             }
           setFormData({
             password: "",
@@ -61,6 +64,7 @@ function LogIn() {
         event.preventDefault();
         setFormData({ ...formData, [event.target.id]: event.target.value });
       };
+
       return (
         <div className='flex flex-col justify-center items-center h-full'>
           <form

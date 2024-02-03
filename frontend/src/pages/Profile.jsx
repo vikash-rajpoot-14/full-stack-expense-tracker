@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { CiGlobe } from "react-icons/ci";
+import { context } from "../App";
 
 function Profile() {
   const [form, setForm] = useState({ name: "", image: "" });
@@ -10,7 +11,7 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const navigate = useNavigate()
-  console.log("user", user);
+  const Ctx = useContext(context)
 
   //   console.log("error", error);
   const handleChange = (e) => {
@@ -45,8 +46,6 @@ function Profile() {
         }
       );
       const data = await response.json();
-      //   console.log("update", data);
-
       if (data.error) {
         throw new Error(data.error.message);
       } else {
@@ -57,7 +56,6 @@ function Profile() {
         name: "",
       });
       setLoading(false);
-      // navigate("/home")
       resetError();
     } catch (error) {
       setError(error.message);
@@ -97,7 +95,8 @@ function Profile() {
 
   const handleLogout=(e)=>{
     e.preventDefault();
-    localStorage.removeItem("token");
+    Ctx.setToken(null);
+    Ctx.setUser(null);
     setNote("Logout successful");
     navigate("/");
   }
@@ -119,6 +118,7 @@ function Profile() {
         );
         const data = await response.json();
         setUser(data.users[0]);
+        Ctx.setUser(data.users[0])
         setForm({
           image: data.users[0].photoUrl,
           name: data.users[0].displayName,

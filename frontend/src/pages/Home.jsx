@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function Home() {
+const [user,setUser] = useState([])
+const [loading,setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [note, setNote] = useState(null);
 
-
-
+ 
   return (
     <div>
     <div className='flex justify-between items-center p-4 border-b-2'>

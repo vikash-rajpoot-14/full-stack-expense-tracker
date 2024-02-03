@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
+import { context } from "../App";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,8 @@ function SignUp() {
   const [error, setError] = useState(null);
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(false)
-  console.log(formData);
+  
+  const Ctx = useContext(context)
 
   const resetError=()=>{
     setTimeout(()=>{
@@ -45,7 +47,8 @@ function SignUp() {
       if(data.error){
         throw new Error(data.error.message)
       }else{
-        localStorage.setItem('token',JSON.stringify(data.idToken))
+        Ctx.setToken(data.idToken);
+        Ctx.setUser(data);
         setNote("SignUp successful")
 
       }
