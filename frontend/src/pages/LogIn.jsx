@@ -90,7 +90,7 @@ function LogIn() {
             >
              {loading ? "Logining" : "Login"}
             </button>
-            <p className='text-blue-400 underline'>forgot password</p>
+            <p onClick={()=>navigate("/forgotpassword")} className='text-blue-400 cursor-pointer underline'>forgot password</p>
             {error && <p className={`${error ? "flex":"hidden"} text-red-500`}>{error}</p>}
             {note && <p className={`${note ? "flex":"hidden"} text-green-500`}>{note}</p>}
           </form>
