@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import {Link, useNavigate} from "react-router-dom";
 
 function LogIn() {
     const [formData, setFormData] = useState({
         password: "",
         email: "",
       });
+      const navigate = useNavigate();
       const [error, setError] = useState(null);
       const [note, setNote] = useState(null);
       const [loading, setLoading] = useState(false)
@@ -46,6 +48,7 @@ function LogIn() {
             email: "",
           });
           setLoading(false);
+          navigate("/home")
         } catch (error) {
           setError(error.message);
           setLoading(false);
@@ -90,9 +93,9 @@ function LogIn() {
             {error && <p className={`${error ? "flex":"hidden"} text-red-500`}>{error}</p>}
             {note && <p className={`${note ? "flex":"hidden"} text-green-500`}>{note}</p>}
           </form>
-          <div className="border-2 my-2 p-2 flex justify-center cursor-pointer items-center bg-green-100 hover:border-green-200">
-            Don't have an account?Signup
-          </div>
+          <div  className="border-2 my-2 p-2 flex justify-center cursor-pointer items-center bg-green-100 hover:border-green-200">
+            Don't have an account?<Link className="text-blue-500" to={"/signup"}>Signup</Link>
+          </div >
         </div>
       )
 }

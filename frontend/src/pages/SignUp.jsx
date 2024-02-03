@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link, useNavigate} from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -6,6 +7,7 @@ function SignUp() {
     password: "",
     email: "",
   });
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(false)
@@ -44,6 +46,7 @@ function SignUp() {
         throw new Error(data.error.message)
       }else{
         setNote("SignUp successful")
+
       }
       setFormData({
         confirmpass: "",
@@ -51,6 +54,7 @@ function SignUp() {
         email: "",
       });
       setLoading(false);
+      navigate("/home")
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -102,8 +106,8 @@ function SignUp() {
         {error && <p className={`${error ? "flex":"hidden"} text-red-500`}>{error}</p>}
         {note && <p className={`${note ? "flex":"hidden"} text-green-500`}>{note}</p>}
       </form>
-      <div className="border-2 my-2 p-2 flex justify-center cursor-pointer items-center bg-green-100 hover:border-green-200">
-        Have an account?Login
+      <div to="/signup" className="border-2 my-2 p-2 flex justify-center cursor-pointer items-center bg-green-100 hover:border-green-200">
+        Have an account?<Link to={"/"} className="text-blue-500">Login</Link>
       </div>
     </div>
   );
