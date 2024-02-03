@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { CiGlobe } from "react-icons/ci";
@@ -8,6 +8,8 @@ function Profile() {
   const [error, setError] = useState(null);
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(false)
+
+
   console.log("error" , error)
     const handleChange=(e)=>{
         e.preventDefault()
@@ -37,7 +39,7 @@ function Profile() {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({...form,idToken}),
+                body: JSON.stringify({displayName:name,idToken,photoUrl:image}),
               }
             );
             const data = await response.json();
@@ -62,6 +64,31 @@ function Profile() {
         };
       
 
+
+        useEffect(() => {
+            const idToken = JSON.parse(localStorage.getItem('token'));
+            try {
+            async function getUser(){
+                  const response = await  fetch("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyC8T2tJrMoX-NMazsfAm00AGKxU27_xLtU",{
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({idToken}),
+                    })
+                    const data = await response.json();
+                    console.log("user", data);
+                    setForm({
+                        image: data.users[0].photoUrl,
+                        name: data.users[0].displayName,
+                    })
+                }
+                getUser();
+                } catch (error) {
+                setError(error.message);
+                }
+        },[])
+        
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center p-4 border-b-2">
@@ -85,14 +112,14 @@ function Profile() {
               <FaGithub />
               <div className="flex w-auto">
                 <label htmlFor="name">Full Name:</label>
-                <input onChange={handleChange} id="name" type="text" className="ml-12 px-4 border-2 w-96" />
+                <input value={form?.name} onChange={handleChange} placeholder="name..." id="name" type="text" className="ml-12 px-4 border-2 w-96" />
               </div>
             </div>
             <div className="flex gap-2 justify-center items-center">
               <CiGlobe />
               <div className="flex  w-auto">
                 <label htmlFor="image">Profile Photo URL:</label>
-                <input onChange={handleChange} id="image" type="text"className="ml-12 px-4 border-2 w-96"  />
+                <input value={form?.image} onChange={handleChange} placeholder="image..." id="image" type="text"className="ml-12 px-4 border-2 w-96"  />
               </div>
             </div>
           </div>
