@@ -12,15 +12,13 @@ import {
 function App() {
 
   return (
-    <div className=' h-screen'>
+    <div className='h-screen'>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<LogIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
-
-
         </Routes>
       </BrowserRouter>
     </div>

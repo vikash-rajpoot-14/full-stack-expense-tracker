@@ -41,6 +41,7 @@ function LogIn() {
           if(data.error){
             throw new Error(data.error.message)
           }else{
+            localStorage.setItem('token',JSON.stringify(data.idToken))
               setNote("Login successful")
             }
           setFormData({
@@ -61,7 +62,7 @@ function LogIn() {
         setFormData({ ...formData, [event.target.id]: event.target.value });
       };
       return (
-        <div>
+        <div className='flex flex-col justify-center items-center h-full'>
           <form
             onSubmit={handleSubmit}
             className="flex border-2 p-4 flex-col justify-center items-center gap-4"
@@ -93,7 +94,7 @@ function LogIn() {
             {error && <p className={`${error ? "flex":"hidden"} text-red-500`}>{error}</p>}
             {note && <p className={`${note ? "flex":"hidden"} text-green-500`}>{note}</p>}
           </form>
-          <div  className="border-2 my-2 p-2 flex justify-center cursor-pointer items-center bg-green-100 hover:border-green-200">
+          <div  className="border-2 my-2 p-2 px-[52px] flex justify-center cursor-pointer items-center bg-green-100 hover:border-green-200">
             Don't have an account?<Link className="text-blue-500" to={"/signup"}>Signup</Link>
           </div >
         </div>
