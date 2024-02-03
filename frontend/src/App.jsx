@@ -1,4 +1,5 @@
 import './App.css'
+import PrivateRoutes from './components/PrivateRoutes';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import Profile from './pages/Profile';
@@ -17,8 +18,10 @@ function App() {
         <Routes>
           <Route path='/' element={<LogIn />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route  element={<PrivateRoutes/>}>
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

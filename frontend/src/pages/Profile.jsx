@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { CiGlobe } from "react-icons/ci";
 
@@ -9,7 +9,7 @@ function Profile() {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
-
+  const navigate = useNavigate()
   console.log("user", user);
 
   //   console.log("error", error);
@@ -94,6 +94,13 @@ function Profile() {
 
     }
   };
+
+  const handleLogout=(e)=>{
+    e.preventDefault();
+    localStorage.removeItem("token");
+    setNote("Logout successful");
+    navigate("/");
+  }
 
   useEffect(() => {
     const idToken = JSON.parse(localStorage.getItem("token"));
@@ -191,12 +198,18 @@ function Profile() {
               </div>
             </div>
           </div>
-          <div className="relative right-[36vw]">
+          <div className="flex justify-between items-center m-2 px-4">
             <button
               className="bg-orange-800 text-white  p-1 px-2 rounded-md"
               type="submit"
             >
-              Update
+              {loading?"Updating" :"Update"}
+            </button>
+            <button
+              className="bg-orange-800 text-white hover:bg-orange-900  p-1 px-2 rounded-md"
+              onClick={handleLogout}
+            >
+              LogOut
             </button>
           </div>
           <p className="border-b-2 m-2 "></p>
